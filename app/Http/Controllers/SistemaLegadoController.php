@@ -17,54 +17,41 @@ class SistemaLegadoController extends Controller
 
     public function buscar($id)
     {
-        $sistema = SistemaLegado::find($id);
-        if (!$sistema) return response()->json(['mensagem' => 'Sistema não encontrado'], 404);
-
+        $sistema = SistemaLegado::findOrFail($id);
         return response()->json($sistema, 200);
     }
 
     public function cadastrar(Request $request)
     {
-        try {
-            $request->validate([
-                'nome' => 'required|string',
-                'linguagem' => 'required|string',
-                'status' => 'required|in:ativo,em_manutencao,descontinuado',
-                'descricao' => 'nullable|string'
-            ]);
+        $request->validate([
+            'nome' => 'required|string',
+            'linguagem' => 'required|string',
+            'status' => 'required|in:ativo,em_manutencao,descontinuado',
+            'descricao' => 'nullable|string'
+        ]);
 
-            $sistema = SistemaLegado::create($request->all());
-            return response()->json($sistema, 201);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['erros' => $e->errors()], 422);
-        }
+        $sistema = SistemaLegado::create($request->all());
+        return response()->json($sistema, 201);
     }
 
     public function atualizar(Request $request, $id)
     {
-        $sistema = SistemaLegado::find($id);
-        if (!$sistema) return response()->json(['mensagem' => 'Sistema não encontrado'], 404);
+        $sistema = SistemaLegado::findOrFail($id);
 
-        try {
-            $request->validate([
-                'nome' => 'sometimes|required|string',
-                'linguagem' => 'sometimes|required|string',
-                'status' => 'sometimes|required|in:ativo,em_manutencao,descontinuado',
-                'descricao' => 'nullable|string'
-            ]);
+        $request->validate([
+            'nome' => 'sometimes|required|string',
+            'linguagem' => 'sometimes|required|string',
+            'status' => 'sometimes|required|in:ativo,em_manutencao,descontinuado',
+            'descricao' => 'nullable|string'
+        ]);
 
-            $sistema->update($request->all());
-            return response()->json($sistema, 200);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['erros' => $e->errors()], 422);
-        }
+        $sistema->update($request->all());
+        return response()->json($sistema, 200);
     }
 
     public function remover($id)
     {
-        $sistema = SistemaLegado::find($id);
-        if (!$sistema) return response()->json(['mensagem' => 'Sistema não encontrado'], 404);
-
+        $sistema = SistemaLegado::findOrFail($id);
         $sistema->delete();
         return response()->json(['mensagem' => 'Sistema removido com sucesso'], 200);
     }
