@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SistemaLegado extends Model
 {
-    protected $table = 'sistemas_legados';
+    use HasFactory;
 
+    protected $table = 'sistemas_legados';
     protected $fillable = [
         'nome',
         'descricao',
