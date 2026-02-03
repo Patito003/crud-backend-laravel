@@ -47,9 +47,9 @@ class SistemaLegadoController extends Controller
 
         try {
             $request->validate([
-                'nome' => 'required|string',
-                'linguagem' => 'required|string',
-                'status' => 'required|in:ativo,em_manutencao,descontinuado',
+                'nome' => 'sometimes|required|string',
+                'linguagem' => 'sometimes|required|string',
+                'status' => 'sometimes|required|in:ativo,em_manutencao,descontinuado',
                 'descricao' => 'nullable|string'
             ]);
 
